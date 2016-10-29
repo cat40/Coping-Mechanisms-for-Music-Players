@@ -21,13 +21,16 @@ with open(pname, 'a') as playlist:
         else:
             found = [None]#None is filler for indexing
             i=1
+            print('-'*80)
             print(0, 'none of these')
             files = (os.path.join(root, fname) for root, _, fnames in os.walk(drivename) for fname in fnames)
             for f in files:
                 if search in f.lower():
                     found.append(f)
+                    print('-'*80)
                     print(i, f)
                     i += 1
+            print('-'*80)
             nums = raw_input('input the number(s) of the files. Seperate entires with commas (,). Hyphens (-) may be used for ranges.\n')
             nums = nums.replace(' ', '').split(',')
             for num in nums:
@@ -38,4 +41,7 @@ with open(pname, 'a') as playlist:
                     for i in range(int(num[0]), int(num[1])+1):
                         playlist.write(found[i].lstrip(remname).lstrip('/').lstrip('\\')+'\n')
                 else:
-                    playlist.write(found[int(num)].lstrip(remname).lstrip('/').lstrip('\\')+'\n')
+                    try:
+                        playlist.write(found[int(num)].lstrip(remname).lstrip('/').lstrip('\\')+'\n')
+                    except ValueError:
+                        pass
